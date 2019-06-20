@@ -40,19 +40,22 @@ public class AlbumsUpdater {
     }
 
     public void update() throws IOException {
-        Optional<Blob> maybeBlob = blobStore.get("albums.csv");
 
-        if (!maybeBlob.isPresent()) {
-            logger.info("No albums.csv found when running AlbumsUpdater!");
-            return;
-        }
+            Optional<Blob> maybeBlob = blobStore.get("albums.csv");
 
-        List<Album> albumsToHave = readFromCsv(objectReader, maybeBlob.get().inputStream);
-        List<Album> albumsWeHave = albumsBean.getAlbums();
+            if (!maybeBlob.isPresent()) {
+                logger.info("No albums.csv found when running AlbumsUpdater!");
+                return;
+            }
 
-        createNewAlbums(albumsToHave, albumsWeHave);
-        deleteOldAlbums(albumsToHave, albumsWeHave);
-        updateExistingAlbums(albumsToHave, albumsWeHave);
+            List<Album> albumsToHave = readFromCsv(objectReader, maybeBlob.get().inputStream);
+            List<Album> albumsWeHave = albumsBean.getAlbums();
+
+            createNewAlbums(albumsToHave, albumsWeHave);
+            deleteOldAlbums(albumsToHave, albumsWeHave);
+
+            updateExistingAlbums(albumsToHave, albumsWeHave);
+
     }
 
 
